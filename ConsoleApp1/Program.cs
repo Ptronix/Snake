@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleApp1
+namespace SnakeApp
 {
     class Program
     {
@@ -18,7 +18,7 @@ namespace ConsoleApp1
                 snake.MoveSnake(m);
                 snake.DeleteLastPart();
                // snake.CheckCollision(m);
-                snake.DrawSnake(m);
+                //snake.DrawSnake(m);
                 snake.CheckBerryMatch(m);
 
                 snake.MoveSnake(m);

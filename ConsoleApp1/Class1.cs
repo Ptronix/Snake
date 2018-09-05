@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections;
 using System.Numerics;
 
-namespace ConsoleApp1
+namespace SnakeApp
 {
     public class Matchfield
     {

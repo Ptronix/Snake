@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleApp1
+namespace SnakeApp
 {
    public class Snake
     {//private set
@@ -43,6 +43,7 @@ namespace ConsoleApp1
             {
                 m.Score += 10;
                 Console.SetCursorPosition(1,23);
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Score: {0}",m.Score);
                 m.DropItems();
                 AppendBlock();
@@ -117,7 +118,12 @@ namespace ConsoleApp1
                 YposBody.Insert(0, yPositionToAttend-1);
                 XposBody.Insert(0, xPositionToAttend);
 
-                
+                DeleteLastPart();
+                CheckCollision(m);
+                DrawSnake(m);
+                CheckBerryMatch(m);
+                MoveSnake(m);
+                CheckCollision(m);
 
             }
             //Move Down = y+1
