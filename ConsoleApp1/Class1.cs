@@ -33,11 +33,12 @@ namespace SnakeApp
         /// </summary>
         public void DrawBorders()
         {
+            
             Console.ForegroundColor = ConsoleColor.DarkRed;
 
             for (int i = 0; i <= Length; i++)
             {
-                    Console.SetCursorPosition(i, 0);
+                Console.SetCursorPosition(i, 0);
                 Console.Write("■");
 
                 Console.SetCursorPosition(i, Height - 1);
@@ -46,11 +47,11 @@ namespace SnakeApp
 
             for (int i = 0; i < Height; i++)
             {
-            Console.SetCursorPosition(0, i);
-            Console.Write("■");
+                Console.SetCursorPosition(0, i);
+                Console.Write("■");
 
-            Console.SetCursorPosition(Length, i);
-            Console.Write("■");
+                Console.SetCursorPosition(Length, i);
+                Console.Write("■");
             }
         }
 
@@ -58,8 +59,8 @@ namespace SnakeApp
         {
             Random randomxyItemPos = new Random();
 
-            yRandom = randomxyItemPos.Next(20);
-            xRandom = randomxyItemPos.Next(81);
+            yRandom = randomxyItemPos.Next(1,20);
+            xRandom = randomxyItemPos.Next(1,81);
             Console.SetCursorPosition(xRandom, yRandom);
             Console.Write("*");
 

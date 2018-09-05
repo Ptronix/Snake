@@ -69,8 +69,8 @@ namespace SnakeApp
                     break;
 
                 case "right":
-                    XposBody.Add(XposBody[XposBody.Count - 1]);
-                    YposBody.Add(YposBody[YposBody.Count - 1] + 1);
+                    XposBody.Add(XposBody[XposBody.Count - 1] + 1);
+                    YposBody.Add(YposBody[YposBody.Count - 1] );
                     break;
             }
         }
@@ -118,13 +118,6 @@ namespace SnakeApp
                 YposBody.Insert(0, yPositionToAttend-1);
                 XposBody.Insert(0, xPositionToAttend);
 
-                DeleteLastPart();
-                CheckCollision(m);
-                DrawSnake(m);
-                CheckBerryMatch(m);
-                MoveSnake(m);
-                CheckCollision(m);
-
             }
             //Move Down = y+1
             else if (keyPressed == ConsoleKey.DownArrow)
@@ -136,13 +129,7 @@ namespace SnakeApp
 
                 YposBody.Insert(0, yPositionToAttend + 1);
                 XposBody.Insert(0, xPositionToAttend);
-                DeleteLastPart();
-                CheckCollision(m);
-                DrawSnake(m);
-                CheckBerryMatch(m);
                 
-                MoveSnake(m);
-                CheckCollision(m);
             }
             //MoveLeft = x-1
             else if  (keyPressed == ConsoleKey.LeftArrow)
@@ -151,16 +138,9 @@ namespace SnakeApp
                 int yPositionToAttend = YposBody[0];
                 int xPositionToAttend = XposBody[0];
 
+               
                 YposBody.Insert(0, yPositionToAttend);
                 XposBody.Insert(0, xPositionToAttend - 1);
-
-                DeleteLastPart();
-                CheckCollision(m);
-                DrawSnake(m);
-                CheckBerryMatch(m);
-                
-                MoveSnake(m);
-                CheckCollision(m);
 
             }
             //MoveRight = x+1
@@ -172,22 +152,14 @@ namespace SnakeApp
 
                 YposBody.Insert(0, yPositionToAttend);
                 XposBody.Insert(0, xPositionToAttend + 1);
-
-                DeleteLastPart();
-                CheckCollision(m);
-                DrawSnake(m);
-                CheckBerryMatch(m);
-                
-                MoveSnake(m);
-                CheckCollision(m);
+  
             }
-            
         }
 
         public void DeleteLastPart()
         {
             Console.SetCursorPosition(XposBody[XposBody.Count - 1], YposBody[YposBody.Count - 1]);
-            Console.Write(" ");
+            Console.Write("  ");
             //delete last element count-1 because starts at 0
             XposBody.RemoveAt(XposBody.Count - 1);
             YposBody.RemoveAt(YposBody.Count - 1);
