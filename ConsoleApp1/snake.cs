@@ -10,10 +10,22 @@ namespace SnakeApp
         public int Ypos { get; private set; }
         public char BodyPart = 'X';
         public char Head = '0';
-
+        public bool isKeyAvailable = false;
+        public string lastKey;
+        public ConsoleKey keyPressed = ConsoleKey.UpArrow;
         public List<int> XposBody = new List<int>();
         public List<int> YposBody = new List<int>();
-        public string lastMove;
+        public enum Direction
+        {
+            Up,
+            Down,
+            Right,
+            Left,
+        }
+
+        //standard direction
+       public Direction direction = Direction.Up; 
+
 
         public Snake(Matchfield m)
         {
@@ -42,33 +54,31 @@ namespace SnakeApp
             if ( XposBody.Contains(m.xRandom) && YposBody.Contains(m.yRandom) )
             {
                 m.Score += 10;
-                Console.SetCursorPosition(1,23);
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Score: {0}",m.Score);
+               
                 m.DropItems();
                 AppendBlock();
             }
         }
         public void AppendBlock()
         {
-            switch (lastMove)
+            switch (direction)
             {
-                case "up":
+                case Direction.Up:
                     XposBody.Add(XposBody[XposBody.Count - 1]);
                     YposBody.Add(YposBody[YposBody.Count - 1] + 1);
                     break;
 
-                case "down":
+                case Direction.Down:
                     XposBody.Add(XposBody[XposBody.Count - 1]);
                     YposBody.Add(YposBody[YposBody.Count - 1] + 1);
                     break;
 
-                case "left":
+                case Direction.Left:
                     XposBody.Add(XposBody[XposBody.Count - 1] +1);
                     YposBody.Add(YposBody[YposBody.Count - 1]);
                     break;
 
-                case "right":
+                case Direction.Right:
                     XposBody.Add(XposBody[XposBody.Count - 1] + 1);
                     YposBody.Add(YposBody[YposBody.Count - 1] );
                     break;
@@ -79,87 +89,92 @@ namespace SnakeApp
         {
           
             Console.ForegroundColor = ConsoleColor.White;
-
-            foreach (var xPosition in XposBody)
+            
+            for(var xPosition = 0; xPosition < XposBody.Count ; xPosition++)
             {
-                foreach (var yPosition in YposBody)
+                for (var yPosition = 0; yPosition < YposBody.Count ; yPosition++)
                 {
-                    Console.SetCursorPosition(xPosition, yPosition);
+                    Console.SetCursorPosition(XposBody[xPosition],YposBody[yPosition]);
                     Console.Write("{0}", BodyPart);
-                   
-                    
                 }
             }
         }
         public void CheckCollision(Matchfield m)
         {
             //if (XposBody[0] <= 0 || XposBody[0] >= 81 || YposBody[0] <= 0 || YposBody[0] >= 21 )
-            if (XposBody[0] <= 0 || YposBody[0] >= 21)
+            if (XposBody[0] <= 0 || XposBody[0] >= 81 || YposBody[0] <= 0 || YposBody[0] >= 21)
             {
                 Console.SetCursorPosition(30, 22);
                 Console.WriteLine("Game Over!");
                 m.SnakeIsALive = false;
-                Console.WriteLine();
             }
         }
                
         public void MoveSnake(Matchfield m)
         {
-            ConsoleKey keyPressed = Console.ReadKey().Key;
-
-            //Move Up y-1
-            if (keyPressed == ConsoleKey.UpArrow)
+          do
             {
-                lastMove = "up";
-
-                int yPositionToAttend = YposBody[0];
-                int xPositionToAttend = XposBody[0];
-
-                YposBody.Insert(0, yPositionToAttend-1);
-                XposBody.Insert(0, xPositionToAttend);
-
-            }
-            //Move Down = y+1
-            else if (keyPressed == ConsoleKey.DownArrow)
-            {
-                lastMove = "down";
-
-                int yPositionToAttend = YposBody[0];
-                int xPositionToAttend = XposBody[0];
-
-                YposBody.Insert(0, yPositionToAttend + 1);
-                XposBody.Insert(0, xPositionToAttend);
+                if (Console.KeyAvailable)
+                {
+                   keyPressed = Console.ReadKey().Key;
+                }
                 
-            }
-            //MoveLeft = x-1
-            else if  (keyPressed == ConsoleKey.LeftArrow)
-            {
-                lastMove = "left";
-                int yPositionToAttend = YposBody[0];
-                int xPositionToAttend = XposBody[0];
+                //Move Up y-1
+                if (keyPressed == ConsoleKey.UpArrow && direction != Direction.Down)
+                {
+                    direction = Direction.Up;
+                    
+                    YposBody.Insert(0, YposBody[0] - 1);
+                    XposBody.Insert(0, XposBody[0]);
+                    DeleteLastPart();
+                }
+                //Move Down = y+1
+                else if (keyPressed == ConsoleKey.DownArrow && direction != Direction.Up)
+                {
+                    direction = Direction.Down;
 
-               
-                YposBody.Insert(0, yPositionToAttend);
-                XposBody.Insert(0, xPositionToAttend - 1);
+                    YposBody.Insert(0, YposBody[0] + 1);
+                    XposBody.Insert(0, XposBody[0]);
+                    DeleteLastPart();
 
-            }
-            //MoveRight = x+1
-            else if (keyPressed == ConsoleKey.RightArrow)
-            {
-                lastMove = "right";
-                int yPositionToAttend = YposBody[0];
-                int xPositionToAttend = XposBody[0];
+                }
+                //MoveLeft = x-1
+                else if (keyPressed == ConsoleKey.LeftArrow && direction != Direction.Right)
+                {
+                    direction = Direction.Left;
+                    
+                    YposBody.Insert(0, YposBody[0]);
+                    XposBody.Insert(0, XposBody[0] - 1);
+                    DeleteLastPart();
+                }
+                //MoveRight = x+1
+                else if (keyPressed == ConsoleKey.RightArrow && direction != Direction.Left)
+                {
+                    direction = Direction.Right;
+                   
+                    YposBody.Insert(0, YposBody[0]);
+                    XposBody.Insert(0, XposBody[0] + 1);
+                    DeleteLastPart();
+                }
+                
+                DrawSnake(m);
+               // DeleteLastPart();
+                CheckCollision(m);
+                CheckBerryMatch(m);
+                m.ScoreLabel();
 
-                YposBody.Insert(0, yPositionToAttend);
-                XposBody.Insert(0, xPositionToAttend + 1);
-  
-            }
+                System.Threading.Thread.Sleep(200);
+
+            } while (m.SnakeIsALive);
+
+            Console.ReadLine();
+                
         }
 
         public void DeleteLastPart()
         {
             Console.SetCursorPosition(XposBody[XposBody.Count - 1], YposBody[YposBody.Count - 1]);
-            Console.Write("  ");
+            Console.Write(" ");
             //delete last element count-1 because starts at 0
             XposBody.RemoveAt(XposBody.Count - 1);
             YposBody.RemoveAt(YposBody.Count - 1);

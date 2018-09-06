@@ -53,16 +53,25 @@ namespace SnakeApp
                 Console.SetCursorPosition(Length, i);
                 Console.Write("■");
             }
+           
         }
+        public void ScoreLabel()
+        {
+            Console.SetCursorPosition(1, 23);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Score: {0}", Score);
+        }
+        
 
         public void DropItems()
         {
             Random randomxyItemPos = new Random();
-
+            Console.ForegroundColor = ConsoleColor.Blue;
             yRandom = randomxyItemPos.Next(1,20);
             xRandom = randomxyItemPos.Next(1,81);
             Console.SetCursorPosition(xRandom, yRandom);
             Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.White;
 
         }
         

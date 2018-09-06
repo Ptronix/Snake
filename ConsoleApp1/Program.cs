@@ -14,21 +14,25 @@ namespace SnakeApp
             m.DrawBorders();
             Snake snake = new Snake(m);
             snake.InitializeSnake(m);
-            m.DropItems();
 
-            while (m.SnakeIsALive)
+            m.DropItems();
+            m.ScoreLabel();
+
+            do
             {
-                
+                if (Console.KeyAvailable)
                 snake.MoveSnake(m);
-                snake.DeleteLastPart();
-                snake.CheckCollision(m);
-                snake.DrawSnake(m);
-                snake.CheckBerryMatch(m);
+
+                //snake.DeleteLastPart();
+                //snake.DrawSnake(m);
+                // snake.CheckCollision(m);
+
+                //snake.CheckBerryMatch(m);
 
                 //snake.MoveSnake(m);
                 //Als eigener thread, der alle x ms sekunden ausgeführt wird...
                 //snake.MoveSnake(m);
-            }
-        }
+            } while (m.SnakeIsALive);
+        }   
     }
 }
