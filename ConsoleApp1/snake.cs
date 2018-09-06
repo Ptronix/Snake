@@ -110,9 +110,8 @@ namespace SnakeApp
             //if (XposBody[0] <= 0 || XposBody[0] >= 81 || YposBody[0] <= 0 || YposBody[0] >= 21 )
             if (XposBody[0] <= 0 || XposBody[0] >= 81 || YposBody[0] <= 0 || YposBody[0] >= 21)
             {
-                Console.SetCursorPosition(30, 22);
-                Console.WriteLine("Game Over!");
-                m.SnakeIsALive = false;
+                GameOver1(m);
+
             }
         }
                
@@ -185,6 +184,28 @@ namespace SnakeApp
             //delete last element count-1 because starts at 0
             XposBody.RemoveAt(XposBody.Count - 1);
             YposBody.RemoveAt(YposBody.Count - 1);
+        }
+        public void GameOver1(Matchfield m)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(m.Length / 2, m.Height / 2);
+            Console.Write("Game Over!");
+            System.Threading.Thread.Sleep(300);
+
+            GameOver2(m);
+            
+        }
+        public void GameOver2(Matchfield m)
+        {
+            Console.SetCursorPosition(m.Length / 2, m.Height / 2);
+            Console.WriteLine("             ");
+            Console.SetCursorPosition(m.Length / 2, m.Height / 2);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Game Over");
+            System.Threading.Thread.Sleep(300);
+
+            GameOver1(m);
+            
         }
     }
 }
