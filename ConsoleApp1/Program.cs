@@ -16,7 +16,7 @@ namespace SnakeApp
             snake.InitializeSnake(m);
 
             m.DropItems();
-            m.ScoreLabel();
+            m.ScoreSpeedLabel();
 
             do
             {

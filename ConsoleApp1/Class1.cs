@@ -22,7 +22,7 @@ namespace SnakeApp
         {
             Height = 22;
             Length = 82;
-            Speed = 10;
+            Speed = 200;
         }
       
         //Leerer Konstruktor
@@ -34,32 +34,36 @@ namespace SnakeApp
         public void DrawBorders()
         {
             
-            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = ConsoleColor.Gray;
 
             for (int i = 0; i <= Length; i++)
             {
                 Console.SetCursorPosition(i, 0);
-                Console.Write("■");
+                Console.Write("#");
 
                 Console.SetCursorPosition(i, Height - 1);
-                Console.Write("■");
+                Console.Write("#");
             }
 
             for (int i = 0; i < Height; i++)
             {
                 Console.SetCursorPosition(0, i);
-                Console.Write("■");
+                Console.Write("#");
 
                 Console.SetCursorPosition(Length, i);
-                Console.Write("■");
+                Console.Write("#");
             }
            
         }
-        public void ScoreLabel()
+        public void ScoreSpeedLabel()
         {
             Console.SetCursorPosition(1, 23);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Score: {0}", Score);
+            Console.Write("Score: {0}",Score);
+            
+            Console.SetCursorPosition(20, 23);
+            Console.Write("Delay: {0}", Speed);
+
         }
         
 

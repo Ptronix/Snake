@@ -8,8 +8,8 @@ namespace SnakeApp
     {//private set
         public  int Xpos { get; private set; }
         public int Ypos { get; private set; }
-        public char BodyPart = 'X';
-        public char Head = '0';
+        public char BodyPart = 'o';
+        public char Head = 'O';
         public bool isKeyAvailable = false;
         public string lastKey;
         public ConsoleKey keyPressed = ConsoleKey.UpArrow;
@@ -54,7 +54,7 @@ namespace SnakeApp
             if ( XposBody.Contains(m.xRandom) && YposBody.Contains(m.yRandom) )
             {
                 m.Score += 10;
-               
+                m.Speed -= 50;
                 m.DropItems();
                 AppendBlock();
             }
@@ -87,17 +87,23 @@ namespace SnakeApp
 
         public void DrawSnake(Matchfield m)
         {
-          
-            Console.ForegroundColor = ConsoleColor.White;
-            
-            for(var xPosition = 0; xPosition < XposBody.Count ; xPosition++)
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+            Console.SetCursorPosition(XposBody[0], YposBody[0]);
+            Console.Write("{0}", Head);
+
+            for (var xPosition =1; xPosition < XposBody.Count ; xPosition++)
             {
-                for (var yPosition = 0; yPosition < YposBody.Count ; yPosition++)
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+
+                for (var yPosition = 1; yPosition < YposBody.Count ; yPosition++)
                 {
                     Console.SetCursorPosition(XposBody[xPosition],YposBody[yPosition]);
                     Console.Write("{0}", BodyPart);
                 }
             }
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public void CheckCollision(Matchfield m)
         {
@@ -123,9 +129,10 @@ namespace SnakeApp
                 if (keyPressed == ConsoleKey.UpArrow && direction != Direction.Down)
                 {
                     direction = Direction.Up;
-                    
+
                     YposBody.Insert(0, YposBody[0] - 1);
                     XposBody.Insert(0, XposBody[0]);
+
                     DeleteLastPart();
                 }
                 //Move Down = y+1
@@ -161,9 +168,9 @@ namespace SnakeApp
                // DeleteLastPart();
                 CheckCollision(m);
                 CheckBerryMatch(m);
-                m.ScoreLabel();
+                m.ScoreSpeedLabel();
 
-                System.Threading.Thread.Sleep(200);
+                System.Threading.Thread.Sleep(m.Speed);
 
             } while (m.SnakeIsALive);
 
@@ -174,7 +181,7 @@ namespace SnakeApp
         public void DeleteLastPart()
         {
             Console.SetCursorPosition(XposBody[XposBody.Count - 1], YposBody[YposBody.Count - 1]);
-            Console.Write(" ");
+            Console.WriteLine(" ");
             //delete last element count-1 because starts at 0
             XposBody.RemoveAt(XposBody.Count - 1);
             YposBody.RemoveAt(YposBody.Count - 1);
