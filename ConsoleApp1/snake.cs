@@ -5,9 +5,7 @@ using System.Text;
 namespace SnakeApp
 {
    public class Snake
-    {//private set
-        public  int Xpos { get; private set; }
-        public int Ypos { get; private set; }
+    {
         public char BodyPart = 'o';
         public char Head = 'O';
         public bool isKeyAvailable = false;
@@ -26,11 +24,8 @@ namespace SnakeApp
         //standard direction
        public Direction direction = Direction.Up; 
 
-
-        public Snake(Matchfield m)
-        {
-            
-        }
+        public Snake(Matchfield m) { }
+        
         /// <summary>
         /// Width in fields 22 Snake in range 1-19
         /// heigth in fields 42 Snake 1-41
@@ -45,6 +40,7 @@ namespace SnakeApp
 
             //start at the middle of the matchfield
             Console.SetCursorPosition(XposBody[0],YposBody[0]);
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("{0}",Head);
         }
 
@@ -53,8 +49,13 @@ namespace SnakeApp
             
             if ( XposBody.Contains(m.xRandom) && YposBody.Contains(m.yRandom) )
             {
-                m.Score += 10;
-                m.Speed -= 50;
+                //Add 100 Points to Score Label
+                m.Score += 100;
+
+                //Thread sleep time -20 ms seconds
+                m.Speed -= 20;
+
+                //Draws New random "Berry Matchfield"
                 m.DropItems();
                 AppendBlock();
             }
@@ -88,14 +89,14 @@ namespace SnakeApp
         public void DrawSnake(Matchfield m)
         {
 
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.Green;
 
             Console.SetCursorPosition(XposBody[0], YposBody[0]);
             Console.Write("{0}", Head);
 
             for (var xPosition =1; xPosition < XposBody.Count ; xPosition++)
             {
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
 
                 for (var yPosition = 1; yPosition < YposBody.Count ; yPosition++)
                 {
@@ -162,9 +163,9 @@ namespace SnakeApp
                     XposBody.Insert(0, XposBody[0] + 1);
                     DeleteLastPart();
                 }
-                
+                DeleteSnake();
                 DrawSnake(m);
-               // DeleteLastPart();
+                //DeleteLastPart();
                 CheckCollision(m);
                 CheckBerryMatch(m);
                 m.ScoreSpeedLabel();
@@ -175,6 +176,20 @@ namespace SnakeApp
 
             Console.ReadLine();
                 
+        }
+        
+        private void DeleteSnake()
+        {
+            for (var xPosition = 1; xPosition < XposBody.Count; xPosition++)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+                for (var yPosition = 1; yPosition < YposBody.Count; yPosition++)
+                {
+                    Console.SetCursorPosition(XposBody[xPosition], YposBody[yPosition]);
+                    Console.Write("  ");
+                }
+            }
         }
 
         public void DeleteLastPart()

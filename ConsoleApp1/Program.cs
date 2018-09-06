@@ -20,18 +20,8 @@ namespace SnakeApp
 
             do
             {
-                if (Console.KeyAvailable)
-                snake.MoveSnake(m);
+                if (Console.KeyAvailable) snake.MoveSnake(m);
 
-                //snake.DeleteLastPart();
-                //snake.DrawSnake(m);
-                // snake.CheckCollision(m);
-
-                //snake.CheckBerryMatch(m);
-
-                //snake.MoveSnake(m);
-                //Als eigener thread, der alle x ms sekunden ausgeführt wird...
-                //snake.MoveSnake(m);
             } while (m.SnakeIsALive);
         }   
     }

@@ -25,15 +25,11 @@ namespace SnakeApp
             Speed = 200;
         }
       
-        //Leerer Konstruktor
-        public Matchfield(int speedInput) { }
-        
         /// <summary>
         /// Writes the border on screen
         /// </summary>
         public void DrawBorders()
         {
-            
             Console.ForegroundColor = ConsoleColor.Gray;
 
             for (int i = 0; i <= Length; i++)
@@ -53,8 +49,8 @@ namespace SnakeApp
                 Console.SetCursorPosition(Length, i);
                 Console.Write("#");
             }
-           
         }
+
         public void ScoreSpeedLabel()
         {
             Console.SetCursorPosition(1, 23);
@@ -62,11 +58,10 @@ namespace SnakeApp
             Console.Write("Score: {0}",Score);
             
             Console.SetCursorPosition(20, 23);
-            Console.Write("Delay: {0}", Speed);
+            Console.Write("Delay: {0} ms", Speed);
 
         }
         
-
         public void DropItems()
         {
             Random randomxyItemPos = new Random();
@@ -76,8 +71,6 @@ namespace SnakeApp
             Console.SetCursorPosition(xRandom, yRandom);
             Console.Write("*");
             Console.ForegroundColor = ConsoleColor.White;
-
         }
-        
     }
 }
